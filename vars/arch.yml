@@ -1,0 +1,7 @@
+---
+lxde_pkgs:
+  - lxde
+  - light-locker
+  - lightdm
+  - lightdm-gtk-greeter
+    #  - openbox

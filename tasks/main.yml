@@ -1,0 +1,20 @@
+---
+- include_tasks: variables.yml
+- include_tasks: asserts.yml
+
+- include_tasks: ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
+- include_tasks: arch.yml
+  when: ansible_distribution == "Archlinux"
+
+- name: Config x11 monitors
+  template:
+    src: x11_monitors.conf.j2
+    dest: /etc/X11/xorg.conf.d/x11_monitors.conf
+    owner: root
+    group: root
+    mode: 06344
+  notify: restart lightdm
+
+- name: Set keyboard map
+  command: localectl set-x11-keymap "{{ x11_keymap_layout }}"

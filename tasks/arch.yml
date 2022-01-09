@@ -1,0 +1,6 @@
+---
+- name: Install packages
+  pacman:
+    name: "{{ item }}"
+    update_cache: true
+  loop: "{{ lxde_pkgs }}"
