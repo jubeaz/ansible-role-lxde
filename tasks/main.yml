@@ -7,14 +7,23 @@
 - include_tasks: arch.yml
   when: ansible_distribution == "Archlinux"
 
-- name: Config x11 monitors
-  template:
-    src: x11_monitors.conf.j2
-    dest: /etc/X11/xorg.conf.d/x11_monitors.conf
-    owner: root
-    group: root
-    mode: 06344
-  notify: restart lightdm
+#- name: Config x11 monitors
+#  template:
+#    src: x11_monitors.conf.j2
+#    dest: /etc/X11/xorg.conf.d/x11_monitors.conf
+#    owner: root
+#    group: root
+#    mode: 06344
+#  notify: restart lightdm
+- name: Get localectl
+  command: localectl status
+  register: __locale_status
+  changed_when: false
+
+- name: Parse 'X11 Layout' from current locale
+  set_fact:
+    current_x11_layout: "{{ __locale_status.stdout | regex_search('X11 Layout: ([^\n]+)', '\\1') | first }}"
 
 - name: Set keyboard map
   command: localectl set-x11-keymap "{{ x11_keymap_layout }}"
+  changed_when: current_x11_layout != x11_keymap_layout
