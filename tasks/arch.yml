@@ -3,4 +3,6 @@
   pacman:
     name: "{{ item }}"
     update_cache: true
+  register: __pacman
+  changed_when: __pacman.packages is defined
   loop: "{{ lxde_pkgs }}"
