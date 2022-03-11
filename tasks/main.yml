@@ -27,3 +27,4 @@
 - name: Set keyboard map
   command: localectl set-x11-keymap "{{ x11_keymap_layout }}"
   changed_when: current_x11_layout != x11_keymap_layout
+  notify: restart lightdm

@@ -1,6 +1,8 @@
 ---
 lxde_pkgs:
   - lxde
+  - xorg-xauth
+  - xorg-xhost
   - light-locker
   - lightdm
   - lightdm-gtk-greeter
